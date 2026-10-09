@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Applics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="brand">Applics</h1>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" type="button" id="tab-interview" data-tab="interview" aria-controls="interview">Interview</button>
+      <button role="tab" type="button" id="tab-twin" data-tab="twin" aria-controls="twin">My twin</button>
+      <button role="tab" type="button" id="tab-snippets" data-tab="snippets" aria-controls="snippets">Snippets</button>
+      <button role="tab" type="button" id="tab-compose" data-tab="compose" aria-controls="compose">Compose</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- INTERVIEW -->
+    <section id="interview" class="view" role="tabpanel" aria-labelledby="tab-interview">
+      <div id="mode-banner" class="banner" hidden>Offline mode: follow-ups use simple rules; set ANTHROPIC_API_KEY for AI</div>
+
+      <div class="progress" role="progressbar" aria-label="Interview progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="progress-fill"></div>
+      </div>
+      <p id="progress-text" class="muted"></p>
+
+      <article id="q-card" class="card question-card">
+        <div class="meta">
+          <span id="q-section" class="pill"></span>
+          <span id="q-depth" class="muted"></span>
+          <span id="q-followup" class="pill followup" hidden>Follow-up</span>
+        </div>
+        <h2 id="q-text" class="question"></h2>
+        <p id="q-hint" class="hint" hidden></p>
+        <label class="sr-only" for="q-answer">Your answer</label>
+        <textarea id="q-answer" class="big" rows="10"></textarea>
+        <div class="actions">
+          <button id="q-skip" type="button">Skip</button>
+          <button id="q-save" type="button" class="primary">Save &amp; next <kbd>Ctrl+Enter</kbd></button>
+        </div>
+      </article>
+
+      <p id="q-done" class="card" hidden>All questions answered. Review them under My twin.</p>
+    </section>
+
+    <!-- MY TWIN -->
+    <section id="twin" class="view" role="tabpanel" aria-labelledby="tab-twin" hidden>
+      <h2>Answers</h2>
+      <div id="twin-answers"></div>
+
+      <h2>Facts</h2>
+      <p class="muted">Short facts used for quick form filling. Keys are lowercase identifiers such as <code>email</code>.</p>
+      <div class="table-wrap">
+        <table class="facts">
+          <thead><tr><th scope="col">Key</th><th scope="col">Value</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+          <tbody id="facts-body"></tbody>
+        </table>
+      </div>
+      <form id="fact-add" class="inline-form">
+        <input id="fact-key" type="text" placeholder="key, e.g. email" aria-label="New fact key" required>
+        <input id="fact-value" type="text" placeholder="value" aria-label="New fact value">
+        <button type="submit" class="primary">Add fact</button>
+      </form>
+    </section>
+
+    <!-- SNIPPETS -->
+    <section id="snippets" class="view" role="tabpanel" aria-labelledby="tab-snippets" hidden>
+      <div class="toolbar">
+        <input id="snip-search" type="search" placeholder="Search title, text or tags" aria-label="Search snippets">
+        <button id="snip-new" type="button" class="primary">New snippet</button>
+      </div>
+
+      <form id="snip-form" class="card" hidden>
+        <input type="hidden" id="snip-id">
+        <label>Title <input id="snip-title" type="text" required></label>
+        <label>Text <textarea id="snip-text" rows="6" required></textarea></label>
+        <p class="hint">Variables {company}, {role}, {sector} and {location} are filled in automatically from the job details on the Compose tab.</p>
+        <label>Tags (comma-separated) <input id="snip-tags" type="text" placeholder="leadership, teamwork"></label>
+        <label>Kind
+          <select id="snip-kind">
+            <option value="short">short</option>
+            <option value="paragraph">paragraph</option>
+            <option value="story">story</option>
+            <option value="cover-letter-part">cover-letter-part</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button id="snip-cancel" type="button">Cancel</button>
+          <button type="submit" class="primary">Save snippet</button>
+        </div>
+      </form>
+
+      <p id="snip-count" class="muted"></p>
+      <div id="snip-list" class="list"></div>
+    </section>
+
+    <!-- COMPOSE -->
+    <section id="compose" class="view" role="tabpanel" aria-labelledby="tab-compose" hidden>
+      <div class="compose-grid">
+        <div class="col">
+          <form id="job-form" class="card">
+            <h2>Job</h2>
+            <div class="fields">
+              <label>Company <input name="company" type="text" autocomplete="off"></label>
+              <label>Role <input name="role" type="text" autocomplete="off"></label>
+              <label>Sector <input name="sector" type="text" autocomplete="off"></label>
+              <label>Location <input name="location" type="text" autocomplete="off"></label>
+            </div>
+            <details class="jd">
+              <summary>Job description</summary>
+              <textarea name="description" rows="6" aria-label="Job description"></textarea>
+            </details>
+          </form>
+
+          <div class="card">
+            <label for="c-question"><strong>Question / field</strong></label>
+            <textarea id="c-question" rows="3" placeholder="Paste the application question or form field"></textarea>
+            <div id="c-suggestions" class="list"></div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="row">
+              <label for="c-answer"><strong>Answer being built</strong></label>
+              <span id="c-wc" class="muted" aria-live="polite"></span>
+            </div>
+            <textarea id="c-answer" rows="14" aria-describedby="c-suggest-bar"></textarea>
+            <div id="c-suggest-bar" class="suggest" hidden>
+              <span class="suggest-label">Suggestion</span>
+              <span id="c-suggest-text" class="pre"></span>
+              <span class="muted">Tab accepts &middot; Esc dismisses</span>
+              <div class="actions">
+                <button id="c-suggest-accept" type="button" class="primary">Accept</button>
+                <button id="c-suggest-dismiss" type="button">Dismiss</button>
+              </div>
+            </div>
+            <div class="actions">
+              <button id="c-copy-all" type="button" class="primary">Copy all</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
