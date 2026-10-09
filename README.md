@@ -93,10 +93,19 @@ You tell the terminal to go into the app's folder, then start the app.
 
 ### Windows (PowerShell)
 
-1. Open the `applics` folder in File Explorer.
-2. Click the address bar at the top, type `powershell`, and press Enter. A PowerShell window opens
-   *already inside the folder*.
-3. Type this and press Enter:
+1. Open the `applics` folder in File Explorer, so you can see the folders `src` and `web` inside it.
+2. Open a PowerShell window **in that folder**. Use whichever of these is easiest:
+   - **Method A:** right-click on an empty gap inside the folder (not on a file) and choose
+     **Open in Terminal** (Windows 11), or hold **Shift** while right-clicking and choose
+     **Open PowerShell window here** (Windows 10).
+   - **Method B:** at the very top of the File Explorer window there is a long white box showing the
+     folder's location (for example `Documents > applics`). Click once in an empty part of that box, so
+     the text turns into something like `C:\Users\You\Documents\applics`. Delete that text, type the word
+     `powershell`, and press **Enter**.
+
+   Either way, a dark window opens. The line of text in it should end with `applics`. That
+   tells you it is in the right folder.
+3. In that window, type this and press Enter:
 
        node src/server.ts
 
