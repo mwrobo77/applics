@@ -37,6 +37,8 @@ export interface Twin {
   snippets: Record<string, Snippet>;
   /** Short facts used for fast form filling (name, email, right to work...). */
   facts: Record<string, string>;
+  /** Bank question ids the applicant chose to skip. */
+  skipped: string[];
 }
 
 export interface JobContext {
@@ -58,4 +60,4 @@ export interface BankQuestion {
   factKey?: string;         // if set, the answer also populates twin.facts[factKey]
 }
 
-export const emptyTwin = (): Twin => ({ version: 1, answers: {}, snippets: {}, facts: {} });
+export const emptyTwin = (): Twin => ({ version: 1, answers: {}, snippets: {}, facts: {}, skipped: [] });
