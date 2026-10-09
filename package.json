@@ -1,0 +1,13 @@
+{
+  "name": "applics",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Digital-twin interview + snippet suggester for fast, high-quality job applications",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "start": "node src/server.ts",
+    "test": "node --test test/",
+    "typecheck": "node --check src/server.ts"
+  }
+}
