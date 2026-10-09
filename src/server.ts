@@ -93,6 +93,12 @@ export function createApp(store: TwinStore, llm: LLM) {
     if (bankById.has(id) && !twin.skipped.includes(id)) { twin.skipped.push(id); store.save(); }
     return { ok: true };
   });
+  route("POST", "/api/facts", (b) => {
+    const key = str(b.key, 80).trim();
+    if (!key) throw new HttpError(400, "Fact key is empty");
+    twin.facts[key] = str(b.value, 2000);
+    store.save(); return twin.facts;
+  });
   route("PUT", "/api/facts", (b) => {
     twin.facts = Object.fromEntries(Object.entries(b ?? {}).map(([k, v]) => [str(k, 80), str(v, 2000)]));
     store.save(); return twin.facts;
