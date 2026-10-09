@@ -17,7 +17,10 @@ const MIME: Record<string, string> = {
 };
 const now = () => new Date().toISOString();
 
-class HttpError extends Error { constructor(public status: number, msg: string) { super(msg); } }
+class HttpError extends Error {
+  status: number;
+  constructor(status: number, msg: string) { super(msg); this.status = status; }
+}
 
 async function readJson(req: IncomingMessage): Promise<any> {
   let size = 0; const chunks: Buffer[] = [];

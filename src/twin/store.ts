@@ -5,7 +5,9 @@ import { emptyTwin, type Twin } from "./schema.ts";
 /** JSON-file persistence. Atomic write (tmp + rename) so a crash can't corrupt the twin. */
 export class TwinStore {
   twin: Twin;
-  constructor(private path = "data/twin.json") {
+  private path: string;
+  constructor(path = "data/twin.json") {
+    this.path = path;
     this.twin = existsSync(path) ? { ...emptyTwin(), ...JSON.parse(readFileSync(path, "utf8")) } : emptyTwin();
   }
   save() {

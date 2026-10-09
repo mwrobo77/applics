@@ -7,7 +7,7 @@
   "engines": { "node": ">=22.18" },
   "scripts": {
     "start": "node src/server.ts",
-    "test": "node --test test/",
+    "test": "node --test test/*.test.ts",
     "typecheck": "node --check src/server.ts"
   }
 }

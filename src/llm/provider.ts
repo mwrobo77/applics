@@ -7,10 +7,12 @@ export interface LLM {
 
 export class ClaudeLLM implements LLM {
   readonly name = "claude";
-  constructor(
-    private apiKey: string,
-    private models = { fast: "claude-haiku-4-5", smart: "claude-sonnet-4-5" },
-  ) {}
+  private apiKey: string;
+  private models: { fast: string; smart: string };
+  constructor(apiKey: string, models = { fast: "claude-haiku-4-5", smart: "claude-sonnet-4-5" }) {
+    this.apiKey = apiKey;
+    this.models = models;
+  }
   async complete({ system, user, maxTokens = 1024, fast = false }: Parameters<LLM["complete"]>[0]) {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
